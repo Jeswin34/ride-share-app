@@ -1,482 +1,350 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="AlfaVox is a CMS Portfolio by Alfa Groups. Learn more about AlfaVox features, pricing, and benefits.">
-    <meta name="description" content="Build and manage your portfolio with our powerful CMS-based portfolio creator. Perfect for developers, designers, and freelancers.">
-  <meta name="keywords" content="portfolio, cms portfolio, create portfolio, developer portfolio, designer portfolio">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlfaVox Portfolio - Your Voice. Your Work. Your Future.</title>
-    <link rel="icon" href="favicon.png" type="image/png">
-    <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Alfa Groups",
-    "url": "https://alfagroups.me",
-    "logo": "https://alfagroups.me/alfavox-logo.png"
-  }
-  </script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/land.css">
-    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
-      <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-analytics-compat.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RideShare — UI Prototype</title>
+  <!-- Tailwind CDN for quick prototype -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --brand: #0ea5a4; --muted: #6b7280; }
+    body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+    /* map placeholder gradient */
+    .map-placeholder { background: linear-gradient(135deg,#e6fffa, #f0f9ff); }
+    /* small card shadow */
+    .card-shadow { box-shadow: 0 6px 18px rgba(2,6,23,0.08); }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <!-- Header with Navigation -->
-        <header class="main-header">
-            <div class="header-content">
-                <div class="logo">
-                    <h1>AlfaVox</h1>
-                    <span>Portfolio</span>
-                </div>
-                <div class="nav">
-                    <div class="nav-item active" data-page="home">Home</div>
-                    <div class="nav-item" data-page="dashboard" id="dashboardNav">Dashboard</div>
-                    <div class="nav-item" data-page="subscribe" id="subscribeNav">Subscribe</div>
-                </div>
-                <div class="auth-section" id="authSection">
-    <a href="login.html" class="btn btn-primary">Login</a>
-</div>
-            </div>
-            
-        </header>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-6xl mx-auto p-4">
+    <!-- Header -->
+    <header class="flex items-center justify-between py-4">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center text-white font-bold">RS</div>
+        <div>
+          <h1 class="text-lg font-semibold">RideShare</h1>
+          <p class="text-xs text-[]var(--muted)">Fast. Friendly. Reliable.</p>
+        </div>
+      </div>
+      <nav class="hidden md:flex items-center gap-4 text-sm text-gray-600">
+        <a href="#" class="hover:underline">Profile</a>
+        <a href="#" class="hover:underline">History</a>
+        <a href="#" class="hover:underline">Help</a>
+        <button id="btn-sos" class="ml-2 px-3 py-1 rounded-md bg-red-500 text-white text-sm">SOS</button>
+      </nav>
+    </header>
 
-        <!-- Hero Section -->
-        <div class="page active" id="homePage">
-            <section class="hero">
-                <div class="hero-content">
-                    <h1>Your Voice. Your Work. Your Future.</h1>
-                    <p class="subtitle">Built by a Student. For Every Dreamer.<br>Some Wishes Aren’t Spoken. They’re Built — Welcome to <b>AlfaVox</b></p>
-                    
-                    <div class="hero-buttons">
-                        <button id="startTrialBtn" class="btn btn-primary">Start Free Trial</button>
-                        <a href="#plans" class="btn btn-outline">View Plans</a>
-                        <a href="prevpro.html" target="_blank" class="btn btn-primary">Preview Theme</a>
+    <main class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Left: Search & Options -->
+      <section class="md:col-span-1 space-y-4">
+        <div class="p-4 bg-white rounded-2xl card-shadow">
+          <label class="text-xs text-gray-500">Pickup</label>
+          <div class="mt-1 flex items-center gap-2">
+            <input id="pickup" class="flex-1 p-3 rounded-lg border border-gray-200" placeholder="Where are you now? e.g., 221B Baker St" value="" />
+            <button id="use-location" class="px-3 py-2 rounded-lg bg-gray-100 text-sm">Use GPS</button>
+          </div>
 
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Students collaborating">
-                </div>
-            </section>
+          <label class="text-xs text-gray-500 mt-3">Drop-off</label>
+          <div class="mt-1">
+            <input id="dropoff" class="w-full p-3 rounded-lg border border-gray-200" placeholder="Where to?" value="" />
+          </div>
 
-            <!-- About Section -->
-            <section id="about" class="about-section">
-                <div class="section-header">
-                    <h2>The AlfaVox Story</h2><img src="alfavox-logo copy.png" alt="AlfaVox Logo" class="section-logo">
-                    <div class="divider"></div>
-                </div>
-                
-                <div class="about-content">
-                    <div class="about-card">
-                        <div class="card-icon">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <h3>Our Beginning</h3>
-                        <p>AlfaVox started as a dream in a small student hostel room — just one engineering student struggling to build a portfolio that truly reflected his skills, faith, and hard work.</p>
-                        <blockquote>"Why should showcasing talent be a luxury? Why isn't there a simple, student-first space to own your story?"</blockquote>
-                        <p>So he built AlfaVox — a clean, affordable, CMS-powered portfolio builder for students, job seekers, and professionals in India. Not backed by big investors. Just faith, late nights, and the hope to help others shine.</p>
-                    </div>
-                    
-                    <div class="about-card">
-                        <div class="card-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                       <h3>Why "AlfaVox"?</h3>
-<p>
-    Some beginnings carry silent stories.<br>
-    This isn't just a launch — it's a whisper of something deeply personal.<br><br>
-    On this very date, a quiet wish takes form not in words, but in creation.<br>
-    Sometimes, what we can’t say directly, we express through the things we build.<br><br>
-    So here it is — a dream born from admiration, launched with hope.<br>
-    <strong>Not All Wishes Are Spoken. Some Become Launch Dates
-</strong> 
-</p>
- </div>
-                </div>
-            </section>
+          <div class="mt-4 flex items-center gap-2">
+            <button id="find-rides" class="flex-1 px-4 py-3 rounded-lg bg-gradient-to-r from-teal-400 to-cyan-400 text-white font-medium">Find Rides</button>
+            <button id="schedule" class="px-3 py-3 rounded-lg border border-gray-200">Schedule</button>
+          </div>
 
-            <!-- Mission Section -->
-            <section class="mission-section">
-                <div class="mission-content">
-                    <h2>Make Violence — With Your Talent</h2>
-                    <p class="mission-statement">Not the violence of hate — the violence of presence. Shake the system. Disrupt the quiet. Put your portfolio out there so loudly they can't ignore you.</p>
-                    <div class="mission-points">
-                        <div class="point">
-                            <i class="fas fa-bullhorn"></i>
-                            <p>Too many students stay hidden. Too many job seekers go unnoticed.</p>
-                        </div>
-                        <div class="point">
-                            <i class="fas fa-folder-open"></i>
-                            <p>Don't let your skills sit in a folder. Don't keep your story in your head.</p>
-                        </div>
-                        <div class="point">
-                            <i class="fas fa-handshake"></i>
-                            <p>Join me — not as a customer, but as a partner in purpose.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Creator Note -->
-            <section class="creator-note">
-                <div class="creator-image">
-                    <img src="creator img.png" alt="Student working">
-                </div>
-                <div class="creator-message">
-                    <h2>A Note from the Creator</h2>
-                    <p>"We're building AlfaVox with love, late nights, and the dream of helping students shine."</p>
-                    <p>I'm not a big tech company. I'm just a student — like many of you — who once needed a portfolio and couldn't afford the fancy platforms or complicated tools.</p>
-                    <p>So I started building AlfaVox — a CMS-based portfolio system made for students, job seekers, and working professionals in India. To give everyone a place to share their story, show their work, and walk toward their dreams.</p>
-                    <div class="signature">
-                        <p>— With heart,</p>
-                        <!-- <p>Built Not to Impress, But to Express — <b>Alfa</b>Vox Is Here -->
-</p>
-                        <p>The Creator of AlfaVox</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Why Subscribe Section -->
-            <section class="why-subscribe">
-                <h2>Why a Subscription Model?</h2>
-                <p>We know money matters — especially when you're in college or starting out. But to offer quality service, we need to cover our costs:</p>
-                
-                <div class="features-grid">
-                    <div class="feature">
-                        <i class="fas fa-shield-alt"></i>
-                        <h3>Secure Storage</h3>
-                        <p>Your work is protected with enterprise-grade security</p>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-server"></i>
-                        <h3>24/7 Uptime</h3>
-                        <p>Your portfolio is always available when you need it</p>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-ad"></i>
-                        <h3>No Ads</h3>
-                        <p>Your portfolio stays clean and professional</p>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-lock"></i>
-                        <h3>Privacy</h3>
-                        <p>We don't sell your data or track your visitors</p>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-star"></i>
-                        <h3>Unlimited Themes</h3>
-                        <p class="theme-note">
-    <p class="theme-note">
-    Choose your theme in the User Admin panel. If it disappoints, we apologize — AlfaVox is working to improve it.</p>
-
-</p>
-                    <!-- </div><div class="feature">
-                        <i class="fas fa-heart"></i>
-                        <h3>With Heart</h3>
-                        <p>What I Couldn't Tell Her, I Built Into a Dream — AlfaVox is Live.<br>Not All Wishes Are Spoken. Some Become Launch Dates
-</p>
-                    </div>
-                </div> -->
-                
-                <!-- <p class="note">Your small subscription keeps this independent Indian startup alive — and helps us keep improving for you.</p> -->
-            </section>
-
-            <!-- Plans Section -->
-            <section id="plans" class="plans-section">
-                <div class="section-header">
-                    <h2>AlfaVox Portfolio Plans</h2>
-                    <p>Built by a student. Priced for your journey.</p>
-                    <div class="divider"></div>
-                </div>
-                
-                <div class="plans">
-                    <div class="plan-card">
-                        <div class="plan-header">
-                            <h3>Starter Plan</h3>
-                            <div class="price">₹30<span>/30 Days</span></div>
-                        </div>
-                        <ul>
-                            
-                            <li><i class="fas fa-check"></i> Modern templates</li>
-                            <li><i class="fas fa-check"></i> Mobile responsive</li>
-                            <li><i class="fas fa-check"></i> Standard domain</li>
-                            <li><i class="fas fa-check"></i> Easy admin panel</li>
-                            <li><i class="fas fa-check"></i> Priority support</li>
-                        </ul>
-                        <button class="btn btn-primary plan-subscribe" data-plan="30">Subscribe</button>
-                    </div>
-                    
-                    <div class="plan-card featured">
-                        
-                        <div class="plan-header">
-                            <h3>Aspire Plan</h3>
-                            <div class="price">₹60<span>/60 Days</span></div>
-                            <div class="price-note"></div>
-                        </div>
-                        <ul>
-                            <li><i class="fas fa-check"></i> Modern templates</li>
-                            <li><i class="fas fa-check"></i> Mobile responsive</li>
-                            <li><i class="fas fa-check"></i> Standard domain</li>
-                            <li><i class="fas fa-check"></i> Easy admin panel</li>
-                            <li><i class="fas fa-check"></i> Priority support</li>
-                        </ul>
-                        <button class="btn btn-primary plan-subscribe" data-plan="60">Subscribe</button>
-                    </div>
-                    
-                    <div class="plan-card">
-                        <div class="plan-header">
-                            <h3>Launchpad Plan</h3>
-                            <div class="price">₹90<span>/90 Days</span></div>
-                            <div class="price-note"></div>
-                        </div>
-                        <ul>
-                            <li><i class="fas fa-check"></i> Modern templates</li>
-                            <li><i class="fas fa-check"></i> Mobile responsive</li>
-                            <li><i class="fas fa-check"></i> Standard domain</li>
-                            <li><i class="fas fa-check"></i> Easy admin panel</li>
-                            <li><i class="fas fa-check"></i> Priority support</li>
-                        </ul>
-                        <button class="btn btn-primary plan-subscribe" data-plan="90">Subscribe</button>
-                    </div>
-                </div>
-                
-                <div class="custom-plan">
-                    <div class="custom-content">
-                        <h3><i class="fas fa-star"></i> Custom Portfolios</h3>
-                        <p>For musicians, freelancers, startups, teachers, academics, and anyone with a unique story.</p>
-                        <ul>
-                            <li>Fully tailored design</li>
-                            <li>Built to fit your brand/field</li>
-                            <li>Price based on scope & requirements</li>
-                        </ul>
-                        <p class="quote">"If your dream doesn't fit into a box, we'll build a new one just for you,Contact AlfaVox on Email,Phone,LinkedIn"</p>
-                    </div>
-                </div>
-            </section>
-            
-            <div id="statusMessage" class="status-message hidden"></div>
+          <div class="mt-4 text-xs text-gray-500">
+            Tip: try addresses, landmarks, or pin on the map.
+          </div>
         </div>
 
-        <!-- Dashboard Page (unchanged) -->
-        <div class="page" id="dashboardPage">
-            <div class="dashboard-card">
-                <h2>My Account</h2>
-                <div id="trialStatusCard" class="trial-status-card hidden">
-                    <h3>Free Trial Status</h3>
-                    <div class="trial-countdown">
-                        <span id="trialDaysLeft"></span> days left in your trial
-                    </div>
-                    <p class="trial-reminder">Upgrade before expiry to retain access</p>
-                    <button id="upgradeFromTrialBtn" class="btn btn-primary">Upgrade Now</button>
-                </div>
-                <div class="user-info">
-                    <div class="info-item">
-                        <strong>Name</strong>
-                        <span id="userName"></span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Email</strong>
-                        <span id="userEmail"></span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Status</strong>
-                        <span id="userStatus" class="status-badge">Not subscribed</span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Plan</strong>
-                        <span id="userPlan">-</span>
-                    </div>
-                </div>
+        <!-- Ride Options list -->
+        <div id="rides-list" class="p-4 bg-white rounded-2xl card-shadow space-y-3">
+          <h3 class="text-sm font-semibold">Available ride types</h3>
 
-                <div id="subscriptionDetails" class="subscription-details hidden">
-                    <h3>Subscription Details</h3>
-                    <div class="user-info">
-                        <div class="info-item">
-                            <strong>Start Date</strong>
-                            <span id="startDate">-</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Expiry Date</strong>
-                            <span id="expiryDate">-</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Grace Period Ends</strong>
-                            <span id="gracePeriod">-</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Period (Days)</strong>
-                            <span id="periodDays">-</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Theme</strong>
-                            <span id="subscriptionTheme">-</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Transaction ID</strong>
-                            <span id="transactionId">-</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Last Updated</strong>
-                            <span id="updatedAt">-</span>
-                        </div>
-                        <div id="publicLinkContainer" class="public-link-container hidden">
-                            <p>Your Public Portfolio Link:</p>
-                            <div style="display: flex; gap: 10px; align-items: center;">
-                                <a id="publicLink" href="#" target="_blank" style="word-break: break-all;"></a>
-                                <button id="copyLinkBtn" class="btn btn-secondary" style="padding: 5px 10px;">Copy</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-buttons">
-                    <P>Access Your Admin Panel for Adding/Updating portfolio Contents </P>
-                    <button id="userAdminBtn" target="_blank" class="btn btn-primary hidden">Go to UserAdmin</button>
-                    <a href="https://forms.gle/s7y4FXhjg8FJJWAU7" target="_blank" class="btn btn-primary">Support/Issue Form</a>
-                    <button id="renewBtn" class="btn btn-primary hidden">Renew Subscription</button>
-                </div>
+          <!-- Sample ride cards (populated by JS as well) -->
+          <div class="ride-option flex items-center justify-between p-3 rounded-lg border border-gray-100" data-type="economy" data-base="2.50" data-perkm="0.60">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center font-semibold">E</div>
+              <div>
+                <div class="text-sm font-medium">Economy</div>
+                <div class="text-xs text-gray-500">Affordable, 4 seats</div>
+              </div>
             </div>
+            <div class="text-right">
+              <div class="price text-sm font-semibold">₹120</div>
+              <div class="text-xs text-gray-400">~8 mins</div>
+            </div>
+          </div>
+
+          <div class="ride-option flex items-center justify-between p-3 rounded-lg border border-gray-100" data-type="premium" data-base="4.00" data-perkm="1.20">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center font-semibold">P</div>
+              <div>
+                <div class="text-sm font-medium">Premium</div>
+                <div class="text-xs text-gray-500">Newer cars, 4 seats</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="price text-sm font-semibold">₹220</div>
+              <div class="text-xs text-gray-400">~4 mins</div>
+            </div>
+          </div>
+
+          <div class="ride-option flex items-center justify-between p-3 rounded-lg border border-gray-100" data-type="xl" data-base="6.50" data-perkm="1.60">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center font-semibold">XL</div>
+              <div>
+                <div class="text-sm font-medium">XL</div>
+                <div class="text-xs text-gray-500">6 seats, more luggage</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="price text-sm font-semibold">₹350</div>
+              <div class="text-xs text-gray-400">~9 mins</div>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Subscribe Page (unchanged) -->
-        <div class="page" id="subscribePage">
-            <div id="activeSubscriptionWarning" class="subscription-warning hidden">
-                <strong>Notice:</strong> Your subscription is currently active and will expire on [expiry date]. You can renew after this date. To upgrade from a trial to a full subscription, proceed with payment.<span id="expiryDateWarning"></span>.
+        <!-- Payment & Promo -->
+        <div class="p-4 bg-white rounded-2xl card-shadow">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-xs text-gray-500">Payment</div>
+              <div class="text-sm font-medium">**** 4242 • Google Pay</div>
             </div>
-            <div class="form-container" id="qrContainer">
-                <h2>Complete Your Subscription</h2>
-                <div class="form-group">
-                    <label for="subName">Name</label>
-                    <input type="text" id="subName" required>
-                </div>
-                <div class="form-group">
-                    <label for="subPhone">Phone Number</label>
-                    <input type="tel" id="subPhone" required placeholder="+91XXXXXXXXXX">
-                </div>
-                <div class="form-group">
-                    <label for="subPlan">Plan</label>
-                    <select id="subPlan" required>
-                        <option value="">-- Select Plan --</option>
-                        <option value="30">30 Days (₹30)</option>
-                        <option value="60">60 Days (₹60)</option>
-                        <option value="90">90 Days (₹90)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="theme">Theme Preference</label>
-                    <select id="theme" required>
-                        <option value="">-- Select Theme --</option>
-                        <option value="light">Light</option>
-                        <option value="dark">Dark</option>
-                        <option value="colorful">Colorful</option>
-                    </select>
-                </div>
-                <button id="showQRBtn" class="btn btn-primary">Show Payment QR</button>
-            </div>
-
-            <div class="form-container hidden" id="paymentProofContainer">
-                <h2>Payment Proof</h2>
-                <div class="qr-container">
-                    <p>Please scan the QR and complete the payment for your selected plan.</p>
-                    <img id="qrImage" src="" alt="Payment QR Code">
-                    <p>Amount: <strong id="qrAmount">₹0</strong></p>
-                </div>
-                <div class="form-group">
-                    <label>Upload Payment Screenshot</label>
-                    <button type="button" id="uploadPaymentProof" class="btn btn-secondary">Upload Payment Proof</button>
-                    <input type="hidden" id="paymentProofUrl">
-                    <div id="imagePreview"></div>
-                </div>
-                <button id="submitProofBtn" class="btn btn-primary">Submit Proof</button>
-                <div id="statusMessageSubscribe" class="status-message hidden"></div>
-            </div>
+            <button class="text-sm text-teal-600">Change</button>
+          </div>
+          <div class="mt-4 text-xs text-gray-500">Promo</div>
+          <div class="mt-2 flex gap-2">
+            <input id="promo" class="flex-1 p-2 rounded-lg border border-gray-200" placeholder="Promo code" />
+            <button class="px-3 py-2 rounded-lg bg-gray-100">Apply</button>
+          </div>
         </div>
 
-        <!-- Trial Registration Modal (unchanged) -->
-        <div id="trialModal" class="modal hidden">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2>Start Your Free Trial</h2>
-                <form id="trialForm">
-                    <div class="form-group">
-                        <label for="trialName">Name</label>
-                        <input type="text" id="trialName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="trialPhone">Phone Number</label>
-                        <input type="tel" id="trialPhone" required placeholder="+91XXXXXXXXXX">
-                    </div>
-                    <div class="form-group">
-                        <label for="trialEmail">Email</label>
-                        <input type="email" id="trialEmail" disabled>
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="submitTrialBtn">Start Free Trial</button>
-                </form>
+      </section>
+
+      <!-- Middle: Map -->
+      <section class="md:col-span-2 space-y-4">
+        <div class="map-placeholder rounded-2xl h-96 p-4 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <div class="bg-white rounded-lg p-3 shadow">Map area (placeholder)</div>
+            <div class="bg-white rounded-lg p-3 shadow flex items-center gap-2">
+              <button id="zoom-in" class="px-2 py-1 rounded">+</button>
+              <button id="zoom-out" class="px-2 py-1 rounded">-</button>
             </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-3 shadow flex items-center justify-between">
+            <div>
+              <div class="text-sm font-medium" id="route-summary">No route selected</div>
+              <div class="text-xs text-gray-500" id="route-distance">—</div>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="text-xs text-gray-500">Est. fare</div>
+              <div id="est-fare" class="text-lg font-semibold">₹—</div>
+            </div>
+          </div>
         </div>
+
+        <!-- Active driver card / bottom sheet -->
+        <div id="driver-card" class="p-4 bg-white rounded-2xl card-shadow hidden">
+          <div class="flex items-center gap-3">
+            <img id="driver-photo" src="https://via.placeholder.com/64" alt="driver" class="w-16 h-16 rounded-lg object-cover" />
+            <div class="flex-1">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div id="driver-name" class="font-semibold">Aman K</div>
+                  <div id="driver-car" class="text-xs text-gray-500">Swift Dzire • KA-05-AB-1234</div>
+                </div>
+                <div class="text-right">
+                  <div class="text-sm font-semibold">4.9 ★</div>
+                  <div class="text-xs text-gray-400">12 rides today</div>
+                </div>
+              </div>
+              <div class="mt-3 flex gap-2">
+                <button id="contact-driver" class="flex-1 px-4 py-2 rounded-lg border border-gray-200">Call</button>
+                <button id="cancel-ride" class="px-4 py-2 rounded-lg bg-red-50 text-red-600">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking CTA -->
+        <div id="booking-cta" class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-3xl p-4 bg-white rounded-3xl card-shadow flex items-center justify-between">
+          <div>
+            <div id="selected-ride" class="text-sm font-medium">Select a ride</div>
+            <div class="text-xs text-gray-500">Add pickup and drop-off to see price</div>
+          </div>
+          <div>
+            <button id="confirm-book" class="px-6 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-cyan-400 text-white font-semibold">Confirm</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Booking modal (hidden) -->
+  <div id="modal" class="fixed inset-0 bg-black/40 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-xl p-6">
+      <h3 class="text-lg font-semibold">Confirm your ride</h3>
+      <p class="text-sm text-gray-500 mt-1">Please confirm pickup & drop-off and choose payment.</p>
+
+      <div class="mt-4 space-y-2">
+        <div class="flex justify-between">
+          <div class="text-xs text-gray-500">Pickup</div>
+          <div id="modal-pickup" class="text-sm font-medium">—</div>
+        </div>
+        <div class="flex justify-between">
+          <div class="text-xs text-gray-500">Drop-off</div>
+          <div id="modal-dropoff" class="text-sm font-medium">—</div>
+        </div>
+        <div class="flex justify-between">
+          <div class="text-xs text-gray-500">Ride</div>
+          <div id="modal-ride" class="text-sm font-medium">—</div>
+        </div>
+        <div class="flex justify-between">
+          <div class="text-xs text-gray-500">Fare</div>
+          <div id="modal-fare" class="text-sm font-medium">—</div>
+        </div>
+      </div>
+
+      <div class="mt-6 flex gap-3">
+        <button id="pay-now" class="flex-1 px-4 py-3 rounded-lg bg-teal-500 text-white font-semibold">Pay & Book</button>
+        <button id="close-modal" class="flex-1 px-4 py-3 rounded-lg border border-gray-200">Back</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Footer Section -->
-    <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <img src="alfavox-logo copy.png" alt="AlfaVox Logo" class="footer-logo">
-                    <h3>AlfaVox</h3>
-                    <p>Built and Managed by Alfa IT Solution's</p>
-                    <div class="social-links">
-                        <a href="https://www.linkedin.com/company/alfa-vox/?lipi=urn%3Ali%3Apage%3Ad_flagship3_search_srp_all%3BVa2vDaofQV2NeICsi1fUWg%3D%3D"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="9487030615"><i class="fab fa-whatsapp"></i></a>
-                        <a href="mailto:alfavox@alfagroups.me"><i class="fas fa-envelope"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#" data-page="home">Home</a></li>
-                        <li><a href="#" data-page="dashboard">Dashboard</a></li>
-                        <li><a href="#" data-page="subscribe">Subscribe</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="policy (1).pdf" id="termsLink">Terms & Conditions</a></li>
-                        <li><a href="privacy policy.html" id="privacyLink">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-contact">
-                    <h4>Contact</h4>
-                    <ul>
-                        <li><i class="fas fa-envelope"></i> <a href="mailto:alfavox@alfagroups.me">alfavox@alfagroups.me</a></li>
-                        <li><i class="fab fa-whatsapp"></i> +91 9487030615</li>
-                        <li><i class="fab fa-linkedin-in"></i>AlfaVox</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                
-                <p>Made with ❤️ in India</p>
-            </div>
-        </div>
-    </footer>
+  <script>
+    // Small client-side logic for prototype behavior
+    const rides = Array.from(document.querySelectorAll('.ride-option'));
+    const selectedRideLabel = document.getElementById('selected-ride');
+    let selectedRide = null;
 
-  
-    
-    <script src="js/land.js"></script>
+    function formatINR(n) {
+      // Simple INR formatting (no external libs)
+      return '₹' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+    }
+
+    rides.forEach(r => {
+      r.addEventListener('click', () => {
+        rides.forEach(x => x.classList.remove('ring-2','ring-teal-200'));
+        r.classList.add('ring-2','ring-teal-200');
+        selectedRide = {
+          type: r.dataset.type,
+          base: parseFloat(r.dataset.base),
+          perkm: parseFloat(r.dataset.perkm)
+        };
+        selectedRideLabel.textContent = r.querySelector('.text-sm.font-medium').textContent + ' — select to confirm';
+        updateEstFare();
+      });
+    });
+
+    function computeFare(base, perkm, distanceKm) {
+      // very simple fare calc: base + perkm*distance + small service fee
+      const service = 0.6 * distanceKm;
+      return Math.max(30, base + perkm * distanceKm + service);
+    }
+
+    function updateEstFare() {
+      const distEl = document.getElementById('route-distance');
+      const fareEl = document.getElementById('est-fare');
+      // mock distance if user provided locations
+      const pickup = document.getElementById('pickup').value.trim();
+      const drop = document.getElementById('dropoff').value.trim();
+      let km = 5;
+      if (pickup && drop) {
+        // heuristics: longer if strings are very different
+        km = Math.min(28, Math.max(2, Math.abs(pickup.length - drop.length) + 3));
+      }
+      distEl.textContent = km + ' km';
+
+      if (selectedRide) {
+        const fare = computeFare(selectedRide.base, selectedRide.perkm, km);
+        fareEl.textContent = formatINR(fare);
+        document.querySelectorAll('.ride-option').forEach(r => r.querySelector('.price').textContent = formatINR(computeFare(parseFloat(r.dataset.base), parseFloat(r.dataset.perkm), km)));
+      } else {
+        fareEl.textContent = '—';
+      }
+    }
+
+    document.getElementById('find-rides').addEventListener('click', () => {
+      updateEstFare();
+      // quick shake the list to indicate results
+      const list = document.getElementById('rides-list');
+      list.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-6px)' }, { transform: 'translateY(0)' }], { duration: 300 });
+    });
+
+    document.getElementById('confirm-book').addEventListener('click', () => {
+      if (!selectedRide) {
+        alert('Please select a ride type first.');
+        return;
+      }
+      const pickup = document.getElementById('pickup').value || 'Current location';
+      const drop = document.getElementById('dropoff').value || '—';
+      const km = document.getElementById('route-distance').textContent.replace(' km','') || '5';
+      const fare = document.getElementById('est-fare').textContent;
+
+      document.getElementById('modal-pickup').textContent = pickup;
+      document.getElementById('modal-dropoff').textContent = drop;
+      document.getElementById('modal-ride').textContent = selectedRide.type;
+      document.getElementById('modal-fare').textContent = fare;
+
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    });
+
+    document.getElementById('close-modal').addEventListener('click', () => {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+    });
+
+    document.getElementById('pay-now').addEventListener('click', () => {
+      // simulate booked driver
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+
+      const driverCard = document.getElementById('driver-card');
+      document.getElementById('driver-name').textContent = 'Ravi P.';
+      document.getElementById('driver-car').textContent = 'Honda City • MH-12-XY-9876';
+      driverCard.classList.remove('hidden');
+
+      // update CTA
+      selectedRideLabel.textContent = 'Driver arriving • 2 mins';
+    });
+
+    document.getElementById('cancel-ride').addEventListener('click', () => {
+      if (confirm('Cancel this ride?')) {
+        document.getElementById('driver-card').classList.add('hidden');
+        selectedRideLabel.textContent = 'Select a ride';
+      }
+    });
+
+    // quick GPS stub
+    document.getElementById('use-location').addEventListener('click', () => {
+      document.getElementById('pickup').value = 'Using GPS — Current Location';
+      updateEstFare();
+    });
+
+    // small helpers
+    document.getElementById('pickup').addEventListener('input', updateEstFare);
+    document.getElementById('dropoff').addEventListener('input', updateEstFare);
+
+    // zoom stub
+    document.getElementById('zoom-in').addEventListener('click', () => alert('Zoom In — integrate with map API'));
+    document.getElementById('zoom-out').addEventListener('click', () => alert('Zoom Out — integrate with map API'));
+
+    // SOS
+    document.getElementById('btn-sos').addEventListener('click', () => alert('SOS triggered — call emergency contact'));
+
+    // initial fare calc
+    updateEstFare();
+  </script>
 </body>
 </html>
